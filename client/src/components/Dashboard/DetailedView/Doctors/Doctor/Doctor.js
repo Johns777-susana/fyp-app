@@ -104,10 +104,7 @@ const Doctor = ({ history, match }) => {
                             <p>
                               <strong>To Time :</strong> {x.to}
                             </p>
-                            <button
-                              className='dlt-available'
-                              onClick={() => deleteDoctorAvailable(_id, x._id)}
-                            >
+                            <button className='dlt-available'>
                               Delete Available Time
                             </button>
                           </div>
