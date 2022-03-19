@@ -10,6 +10,7 @@ import {
   ADD_DISEASE_DETAILS,
   ADD_DISEASE_DETAILS_FAILED,
   DELETE_DISEASE_FAILED,
+  DLT_DIESEASE,
   EDIT_CATEGORY_DETAILS,
   EDIT_CATEGORY_DETAILS_FAILED,
   GET_CATEGORIES_NUMBER,
@@ -155,7 +156,7 @@ const CategoryState = ({ children }) => {
   };
 
   // edit category details
-  const editCategoryDetails = async (_id, categoryDetails, history) => {
+  const editCategoryDetails = async (_id, categoryDetails) => {
     const { name, details } = categoryDetails;
     try {
       const config = {
@@ -166,7 +167,7 @@ const CategoryState = ({ children }) => {
 
       const body = JSON.stringify({ name, details });
 
-      await axios.put(
+      const res = await axios.put(
         `${baseURL}${category.editCategoryDetails}${_id}`,
         body,
         config
@@ -174,8 +175,8 @@ const CategoryState = ({ children }) => {
 
       dispatch({
         type: EDIT_CATEGORY_DETAILS,
+        payload: res.data,
       });
-      history.push('/categories');
     } catch (err) {
       const error = err.response.data.error;
       dispatch({
@@ -197,7 +198,7 @@ const CategoryState = ({ children }) => {
   };
 
   // add disease details to checkup category
-  const addDisease = async (id, diseaseDetails, history) => {
+  const addDisease = async (id, diseaseDetails) => {
     const { diseaseName, diseaseDesc } = diseaseDetails;
     try {
       const config = {
@@ -208,7 +209,7 @@ const CategoryState = ({ children }) => {
 
       const body = JSON.stringify({ diseaseName, diseaseDesc });
 
-      await axios.put(
+      const res = await axios.put(
         `${baseURL}${category.addDisease}${id}/disease`,
         body,
         config
@@ -216,8 +217,8 @@ const CategoryState = ({ children }) => {
 
       dispatch({
         type: ADD_DISEASE_DETAILS,
+        payload: res.data,
       });
-      history.push('/categories');
     } catch (err) {
       const error = err.response.data.error;
       dispatch({
@@ -228,12 +229,15 @@ const CategoryState = ({ children }) => {
   };
 
   // delete disease
-  const deleteDisease = async (id, _id, history) => {
+  const deleteDisease = async (id, _id) => {
     try {
-      await axios.delete(
+      const res = await axios.delete(
         `${baseURL}${category.deleteDiease}/${id}/disease/${_id}`
       );
-      history.push('/categories');
+      dispatch({
+        type: DLT_DIESEASE,
+        payload: res.data,
+      });
     } catch (err) {
       const error = err.response.data.error;
       dispatch({

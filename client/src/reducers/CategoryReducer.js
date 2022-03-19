@@ -6,6 +6,7 @@ import {
   EDIT_CATEGORY_DETAILS,
   ADD_DISEASE_DETAILS,
   GET_SINGLE_CATEGORY,
+  DLT_DIESEASE,
 } from '../actions/actionTypes';
 
 const CategoryReducer = (state, action) => {
@@ -25,6 +26,9 @@ const CategoryReducer = (state, action) => {
         isLoading: false,
       };
     case GET_SINGLE_CATEGORY:
+    case ADD_DISEASE_DETAILS:
+    case EDIT_CATEGORY_DETAILS:
+    case DLT_DIESEASE:
       return {
         ...state,
         categorySingleData: payload,
@@ -44,20 +48,6 @@ const CategoryReducer = (state, action) => {
         ...state,
         categoryData: payload,
         uploadCategoryImgId: null,
-        isLoading: false,
-      };
-
-    case ADD_DISEASE_DETAILS:
-      return {
-        ...state,
-        categorySingleData: null,
-        isLoading: false,
-      };
-
-    case EDIT_CATEGORY_DETAILS:
-      return {
-        ...state,
-        categorySingleData: null,
         isLoading: false,
       };
 

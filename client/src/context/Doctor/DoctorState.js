@@ -4,10 +4,13 @@ import DoctorReducers from '../../reducers/DoctorReducers';
 import axios from 'axios';
 import setAuthToken from '../../utils/setAuthToken';
 import {
+  ADD_AVAILABLE_DATE,
   ADD_AVAILABLE_TIME,
   ADD_DOCTOR_DETAILS,
   ADD_DOCTOR_DETAILS_FAILED,
   DELETE_DOCTOR_FAILED,
+  DLT_AVAILABLE_DATE,
+  DLT_AVAILABLE_TIME,
   DLT_BOOKED_DATE,
   EDIT_DOCTOR_DETAILS,
   EDIT_ROOM_DETAILS_FAILED,
@@ -245,7 +248,56 @@ const DoctorState = ({ children }) => {
   };
 
   // delete the time
-  const deleteTime = async();
+  const deleteTime = async (doctor_id, time_id, id) => {
+    try {
+      const res = await axios.delete(
+        `${baseURL}${doctors.available}${doctor_id}/availabletime/${time_id}/${id}`
+      );
+
+      dispatch({
+        type: DLT_AVAILABLE_TIME,
+        payload: res.data,
+      });
+    } catch (err) {}
+  };
+
+  // add available date
+  const addAvailableDate = async (_id, date) => {
+    try {
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      };
+
+      const body = JSON.stringify({ date });
+
+      const res = await axios.post(
+        `${baseURL}${doctors.available}${_id}/availableTime`,
+        body,
+        config
+      );
+
+      dispatch({
+        type: ADD_AVAILABLE_DATE,
+        payload: res.data,
+      });
+    } catch (err) {}
+  };
+
+  // delete the available date
+  const dltAvailableDate = async (_id, id) => {
+    try {
+      const res = await axios.delete(
+        `${baseURL}${doctors.available}${_id}/availableTime/${id}`
+      );
+
+      dispatch({
+        type: DLT_AVAILABLE_DATE,
+        payload: res.data,
+      });
+    } catch (err) {}
+  };
 
   return (
     <DoctorContext.Provider
@@ -260,6 +312,9 @@ const DoctorState = ({ children }) => {
         querySingleDoctor,
         deleteBookingInfo,
         addTime,
+        deleteTime,
+        addAvailableDate,
+        dltAvailableDate,
       }}
     >
       {children}

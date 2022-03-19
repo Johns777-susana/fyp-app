@@ -5,7 +5,7 @@ import { endpoints } from '../../../../../utils/endpoints';
 import CategoryContext from '../../../../../context/Category/CategoryContext';
 import DoctorContext from '../../../../../context/Doctor/DoctorContext';
 import Spinner from '../../../../Spinner/Spinner';
-import { Redirect, withRouter, Link } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import { FaTrashAlt } from 'react-icons/fa';
 import { AiOutlineFileAdd } from 'react-icons/ai';
 import { FiEdit } from 'react-icons/fi';
@@ -15,7 +15,7 @@ import { BsDot } from 'react-icons/bs';
 const baseURL = process.env.REACT_APP_API_KEY;
 const categories = endpoints.category;
 
-const Category = ({ history, match }) => {
+const Category = ({ match }) => {
   const _id = match.params.category_id;
 
   const {
@@ -58,7 +58,7 @@ const Category = ({ history, match }) => {
 
   const categoryDetailsSubmit = (e) => {
     e.preventDefault();
-    editCategoryDetails(_id, categoryDetails, history);
+    editCategoryDetails(_id, categoryDetails);
     setShowEdit(false);
   };
 
@@ -112,8 +112,7 @@ const Category = ({ history, match }) => {
                             onClick={() => {
                               deleteDisease(
                                 categorySingleData._id,
-                                disease._id,
-                                history
+                                disease._id
                               );
                             }}
                           >
@@ -154,11 +153,7 @@ const Category = ({ history, match }) => {
                           <p
                             className='dlt-doctor'
                             onClick={() =>
-                              dltDoctor(
-                                categorySingleData._id,
-                                doctor.doctorId,
-                                history
-                              )
+                              dltDoctor(categorySingleData._id, doctor.doctorId)
                             }
                           >
                             Delete Doctor
@@ -206,7 +201,7 @@ const Category = ({ history, match }) => {
                 <button
                   className='delete-category'
                   onClick={() =>
-                    deleteCategory(_id, categorySingleData.checkupIcon, history)
+                    deleteCategory(_id, categorySingleData.checkupIcon)
                   }
                 >
                   <FaTrashAlt />
@@ -271,7 +266,7 @@ const Category = ({ history, match }) => {
               className='category-details-form'
               onSubmit={(e) => {
                 e.preventDefault();
-                addDisease(_id, diseaseDetails, history);
+                addDisease(_id, diseaseDetails);
                 setShowAdd(false);
               }}
             >
@@ -322,7 +317,7 @@ const Category = ({ history, match }) => {
               className='category-details-form'
               onSubmit={(e) => {
                 e.preventDefault();
-                addDoctors(docDetails, categorySingleData._id, history);
+                addDoctors(docDetails, categorySingleData._id);
                 setShowAddDoc(false);
               }}
             >
@@ -366,4 +361,4 @@ const Category = ({ history, match }) => {
   );
 };
 
-export default withRouter(Category);
+export default Category;

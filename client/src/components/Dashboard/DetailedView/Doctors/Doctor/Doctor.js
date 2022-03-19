@@ -8,6 +8,7 @@ import { MdTune, MdOutlineLocationOn } from 'react-icons/md';
 import { BsTelephoneFill } from 'react-icons/bs';
 import { Redirect, withRouter, Link } from 'react-router-dom';
 import Spinner from '../../../../Spinner/Spinner';
+import { GrFormTrash } from 'react-icons/gr';
 
 const baseURL = process.env.REACT_APP_API_KEY;
 const doctors = endpoints.doctors;
@@ -20,10 +21,14 @@ const Doctor = ({ history, match }) => {
     querySingleDoctor,
     deleteBookingInfo,
     addTime,
+    deleteTime,
+    addAvailableDate,
+    dltAvailableDate,
   } = useContext(DoctorContext);
   const _id = match.params.doctor_id;
 
   const [showForm, setShowForm] = useState(false);
+  const [showAdd, setShowAdd] = useState(false);
   const [doctorDetails, setDoctorDetails] = useState({
     name: '',
     contactNo: '',
@@ -31,6 +36,10 @@ const Doctor = ({ history, match }) => {
     address: '',
     education: '',
   });
+  const [availableDate, setAvailableDate] = useState({
+    date: '',
+  });
+
   const [availableTime, setAvailableTime] = useState({
     from: '',
     to: '',
@@ -109,18 +118,57 @@ const Doctor = ({ history, match }) => {
                         return (
                           <div key={x._id} className='available'>
                             <h4>{x.date}</h4>
+                            <small
+                              onClick={(e) => {
+                                e.preventDefault();
+                                dltAvailableDate(_id, x._id);
+                              }}
+                            >
+                              Delete Date
+                            </small>
                             <div className='time-table'>
                               <div className='thead'>
                                 <div>From Time</div>
                                 <div>To Time</div>
                               </div>
                               <div className='tbody-container'>
-                                {x.time.map((x) => (
-                                  <div className='tbody' key={x._id}>
-                                    <div>{x.from} A.M</div>
-                                    <div>{x.to} P.M</div>
-                                  </div>
-                                ))}
+                                {x.time.length === 0 ? (
+                                  <p
+                                    style={{
+                                      borderBottom: '1px solid #105ed4',
+                                    }}
+                                  >
+                                    There are no available time for this date.
+                                  </p>
+                                ) : (
+                                  <>
+                                    {x.time.map((y) => (
+                                      <div className='tbody' key={y._id}>
+                                        <div>{y.from} A.M</div>
+                                        <div
+                                          style={{
+                                            display: 'flex',
+                                            gap: '.5em',
+                                            alignItems: 'center',
+                                          }}
+                                        >
+                                          {y.to} P.M{' '}
+                                          <button
+                                            style={{
+                                              border: 'none',
+                                              cursor: 'pointer',
+                                            }}
+                                            onClick={() => {
+                                              deleteTime(_id, x._id, y._id);
+                                            }}
+                                          >
+                                            <GrFormTrash />
+                                          </button>
+                                        </div>
+                                      </div>
+                                    ))}
+                                  </>
+                                )}
                               </div>
                             </div>
                             <form className='add-time-form'>
@@ -211,6 +259,7 @@ const Doctor = ({ history, match }) => {
                   className='edit-doctor'
                   onClick={() => {
                     setShowForm(true);
+                    setShowAdd(false);
                   }}
                 >
                   Edit Doctor Details
@@ -219,6 +268,7 @@ const Doctor = ({ history, match }) => {
                   className='edit-doctor'
                   onClick={() => {
                     setShowForm(false);
+                    setShowAdd(true);
                   }}
                 >
                   Add Doctor Available Time
@@ -302,6 +352,59 @@ const Doctor = ({ history, match }) => {
                   onClick={(e) => {
                     e.preventDefault();
                     setShowForm(false);
+                  }}
+                  className='cancel-btn'
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        )}
+        {showAdd && (
+          <div className='show-form'>
+            <form
+              className='doctor-details-form'
+              onSubmit={(e) => {
+                editFormSubmit(e);
+                setShowForm(false);
+              }}
+            >
+              <h2>Add Available Date</h2>
+              <div className='form-grid'>
+                <div className='form-left'>
+                  <div className='form-input'>
+                    <label htmlFor='name'>Date:</label>
+                    <input
+                      name='date'
+                      type='date'
+                      onChange={(e) =>
+                        setAvailableDate({
+                          ...availableDate,
+                          date: e.target.value,
+                        })
+                      }
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className='form-btn-container'>
+                <button
+                  type='submit'
+                  className='submit-btn'
+                  onClick={(e) => {
+                    e.preventDefault();
+                    addAvailableDate(_id, availableDate.date);
+                    setAvailableDate({ ...availableDate, date: '' });
+                    setShowAdd(false);
+                  }}
+                >
+                  Submit
+                </button>
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setShowAdd(false);
                   }}
                   className='cancel-btn'
                 >
