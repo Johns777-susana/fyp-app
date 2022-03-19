@@ -245,7 +245,7 @@ router.put(
 
 //@desc route to book doctor by date
 router.put(
-  '/book/doctor/:doctor_id',
+  '/book/doctor/:doctor_id/:date_id/availabletime/:time_id',
   [
     check('date', 'Booked Date is required').not().isEmpty(),
     check('bookedTime', 'Booked Times is required').not().isEmpty(),
@@ -291,6 +291,30 @@ router.put(
           msg: 'Sorry the maximum amount of booking for this day is closed. Try again for another date.',
         });
       }
+
+      const dateIndex = doctor.available
+        .map((x) => x.id)
+        .indexOf(req.params.date_id);
+
+      if (dateIndex === -1) {
+        return res
+          .status(404)
+          .json({ msg: 'The date of you have selected is not available.' });
+      }
+
+      const reqDate = doctor.available[dateIndex];
+
+      const timeIndex = reqDate.time
+        .map((x) => x.id)
+        .indexOf(req.params.time_id);
+
+      if (timeIndex === -1) {
+        return res
+          .status(404)
+          .json({ msg: 'The time you have selected is not available. ' });
+      }
+
+      reqDate.time.splice(timeIndex, 1);
 
       const newBookedInfo = {
         bookedBy,
