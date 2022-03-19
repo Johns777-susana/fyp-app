@@ -4,6 +4,7 @@ import DoctorReducers from '../../reducers/DoctorReducers';
 import axios from 'axios';
 import setAuthToken from '../../utils/setAuthToken';
 import {
+  ADD_AVAILABLE_TIME,
   ADD_DOCTOR_DETAILS,
   ADD_DOCTOR_DETAILS_FAILED,
   DELETE_DOCTOR_FAILED,
@@ -218,6 +219,34 @@ const DoctorState = ({ children }) => {
     } catch (err) {}
   };
 
+  // add available time in that date
+  const addTime = async (availableTime, _id, id) => {
+    const { from, to } = availableTime;
+    try {
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      };
+
+      const body = JSON.stringify({ from, to });
+
+      const res = await axios.post(
+        `${baseURL}${doctors.available}${_id}/availabletime/${id}`,
+        body,
+        config
+      );
+
+      dispatch({
+        type: ADD_AVAILABLE_TIME,
+        payload: res.data,
+      });
+    } catch (err) {}
+  };
+
+  // delete the time
+  const deleteTime = async();
+
   return (
     <DoctorContext.Provider
       value={{
@@ -230,6 +259,7 @@ const DoctorState = ({ children }) => {
         editDoctorDetails,
         querySingleDoctor,
         deleteBookingInfo,
+        addTime,
       }}
     >
       {children}

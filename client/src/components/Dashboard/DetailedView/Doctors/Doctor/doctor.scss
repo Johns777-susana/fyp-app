@@ -45,27 +45,85 @@
         .available-time {
           strong {
             color: #105ed4;
+            font-size: 1.15em;
+            text-decoration: underline;
           }
-          .available-container {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5em;
-            margin-top: 0.5em;
-            .available {
-              border: 1px solid #105ed4;
-              display: flex;
-              gap: 1.5em;
-              padding: 0.75em;
-              .dlt-available {
-                color: #fff;
-                background-color: #ff0000cb;
-                outline: none;
-                font-family: 'Poppins', sans-serif;
-                padding: 0.5em 1em;
-                border: none;
-                letter-spacing: 1px;
-                cursor: pointer;
-                transition: 0.3s all ease-in-out;
+          .available {
+            padding: 1em;
+            padding-top: 0.5em;
+            h4 {
+              padding-top: 0.25em;
+              color: #105ed4;
+            }
+            .time-table {
+              width: 100%;
+              max-width: 40em;
+              margin-top: 0.5em;
+
+              .thead {
+                display: flex;
+                justify-content: space-evenly;
+                border: 1px solid #105ed4;
+                div {
+                  color: #105ed4;
+                  padding: 0.25em;
+                }
+              }
+              .tbody-container {
+                border: 1px solid #105ed4;
+                border-bottom: none;
+                border-top: none;
+                margin-bottom: 0.5em;
+                .tbody {
+                  display: flex;
+                  width: 100%;
+                  justify-content: space-evenly;
+                  border-bottom: 1px solid #105ed4;
+                  div {
+                    color: #105ed4;
+                    padding: 0.25em;
+                  }
+                }
+              }
+            }
+            .add-time-form {
+              h5 {
+                color: #105ed4;
+                text-decoration: underline;
+                padding-bottom: 0.25em;
+              }
+              .form-flex {
+                display: flex;
+                gap: 1em;
+                width: 100%;
+                .form-control {
+                  display: flex;
+                  align-items: center;
+                  gap: 0.5em;
+                  padding-top: 0.25em;
+                  label {
+                    color: #105ed4;
+                    font-size: 1.05em;
+                    letter-spacing: 1px;
+                  }
+                  input {
+                    padding: 0.5em;
+                    outline: none;
+                    border: none;
+                    font-family: 'Poppins', sans-serif;
+                    background-color: #f2f2f2;
+                    max-width: 8em;
+                  }
+                }
+                .add-time-btn {
+                  padding: 0.5em 0.75em;
+                  font-family: 'Poppins', sans-serif;
+                  letter-spacing: 1px;
+                  color: #fff;
+                  border: none;
+                  background-color: #105ed4;
+                  cursor: pointer;
+                }
               }
             }
           }

@@ -215,6 +215,7 @@ router.put(
     check('gender', 'Gender is required').not().isEmpty(),
     check('contactNo', 'Contact Number is required').not().isEmpty(),
     check('bloodGroup', 'Blood group is required').not().isEmpty(),
+    check('age', 'Age is required').not().isEmpty(),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -222,7 +223,7 @@ router.put(
     if (!errors.isEmpty())
       return res.status(400).json({ errors: errors.array() });
 
-    const { gender, contactNo, bloodGroup } = req.body;
+    const { gender, contactNo, bloodGroup, age } = req.body;
 
     try {
       const user = await User.findById(req.user.id);
@@ -230,6 +231,7 @@ router.put(
       if (gender) user.gender = gender;
       if (contactNo) user.contactNo = contactNo;
       if (bloodGroup) user.bloodGroup = bloodGroup;
+      if (age) user.age = age;
 
       await user.save();
 

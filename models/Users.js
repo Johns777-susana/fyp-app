@@ -30,6 +30,9 @@ const UsersSchema = new mongoose.Schema({
   userImage: {
     type: String,
   },
+  age: {
+    type: String,
+  },
   userReports: [String], // this will be id of images
 });
 

@@ -19,6 +19,7 @@ const Doctor = ({ history, match }) => {
     doctorSingleData,
     querySingleDoctor,
     deleteBookingInfo,
+    addTime,
   } = useContext(DoctorContext);
   const _id = match.params.doctor_id;
 
@@ -30,6 +31,17 @@ const Doctor = ({ history, match }) => {
     address: '',
     education: '',
   });
+  const [availableTime, setAvailableTime] = useState({
+    from: '',
+    to: '',
+  });
+
+  const timeChangeHandler = (e) => {
+    setAvailableTime({
+      ...availableTime,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   const doctorDetailsHandler = (e) => {
     setDoctorDetails({ ...doctorDetails, [e.target.name]: e.target.value });
@@ -64,6 +76,7 @@ const Doctor = ({ history, match }) => {
             <img
               src={`${baseURL}${doctors.doctorImg}${doctorSingleData.doctorPic}`}
               className='doctor-img'
+              alt=''
             />
             <div className='single-doctor-txt'>
               <h2>{doctorSingleData.name}</h2>
@@ -95,18 +108,58 @@ const Doctor = ({ history, match }) => {
                       {doctorSingleData.available.map((x) => {
                         return (
                           <div key={x._id} className='available'>
-                            <p>
-                              <strong>Date :</strong> {x.date}
-                            </p>
-                            <p>
-                              <strong>From Time :</strong> {x.from}
-                            </p>
-                            <p>
-                              <strong>To Time :</strong> {x.to}
-                            </p>
-                            <button className='dlt-available'>
-                              Delete Available Time
-                            </button>
+                            <h4>{x.date}</h4>
+                            <div className='time-table'>
+                              <div className='thead'>
+                                <div>From Time</div>
+                                <div>To Time</div>
+                              </div>
+                              <div className='tbody-container'>
+                                {x.time.map((x) => (
+                                  <div className='tbody' key={x._id}>
+                                    <div>{x.from} A.M</div>
+                                    <div>{x.to} P.M</div>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                            <form className='add-time-form'>
+                              <h5>+ Add available Time For {x.date}</h5>
+                              <div className='form-flex'>
+                                <div className='form-control'>
+                                  <label>From Time:</label>
+                                  <input
+                                    type='number'
+                                    name='from'
+                                    value={availableTime.from}
+                                    onChange={(e) => timeChangeHandler(e)}
+                                  />
+                                </div>
+                                <div className='form-control'>
+                                  <label>To Time:</label>
+                                  <input
+                                    type='number'
+                                    name='to'
+                                    value={availableTime.to}
+                                    onChange={(e) => timeChangeHandler(e)}
+                                  />
+                                </div>
+                                <button
+                                  className='add-time-btn'
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    addTime(availableTime, _id, x._id);
+                                    setAvailableTime({
+                                      ...availableTime,
+                                      from: '',
+                                      to: '',
+                                    });
+                                  }}
+                                >
+                                  Add Time
+                                </button>
+                              </div>
+                            </form>
                           </div>
                         );
                       })}

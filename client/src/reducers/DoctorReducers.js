@@ -1,4 +1,5 @@
 import {
+  ADD_AVAILABLE_TIME,
   ADD_DOCTOR_DETAILS,
   DLT_BOOKED_DATE,
   EDIT_DOCTOR_DETAILS,
@@ -56,6 +57,12 @@ const DoctorReducers = (state, action) => {
       };
 
     case DLT_BOOKED_DATE:
+      return {
+        ...state,
+        doctorSingleData: payload,
+        isLoading: false,
+      };
+    case ADD_AVAILABLE_TIME:
       return {
         ...state,
         doctorSingleData: payload,
