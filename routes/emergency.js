@@ -1,6 +1,7 @@
 const auth = require('../middleware/auth');
 const express = require('express');
 const router = express.Router();
+const { check, validationResult } = require('express-validator');
 
 const Emergency = require('../models/Emergency');
 const Admin = require('../models/Admins');
@@ -14,6 +15,11 @@ router.post(
     check('long', 'Longitude value is required').not().isEmpty(),
   ],
   async (req, res) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty())
+      return res.status(400).json({ errors: errors.array() });
+
     const user = req.params.user_id;
     const { lat, long } = req.body;
     const read = 'false';
@@ -81,7 +87,7 @@ router.delete('/:emergency_id', async (req, res) => {
 });
 
 //@desc change notification read;
-router.put('/:notification_id', auth, async (req, res) => {
+router.put('/notice/:notification_id', auth, async (req, res) => {
   try {
     const admin = await Admin.findById(req.admin.id);
 
@@ -89,9 +95,29 @@ router.put('/:notification_id', auth, async (req, res) => {
       .map((x) => x.id)
       .indexOf(req.params.notification_id);
 
+    if (index === -1) return res.status(404).json({ msg: 'Not found' });
     admin.emergencyAlert[index].read = 'true';
     await admin.save();
 
+    res.json(admin);
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).json('Server Error');
+  }
+});
+
+//@desc delete notification
+router.delete('/notice/:notification_id', auth, async (req, res) => {
+  try {
+    const admin = await Admin.findById(req.admin.id);
+
+    const index = admin.emergencyAlert
+      .map((x) => x.id)
+      .indexOf(req.params.notification_id);
+
+    admin.emergencyAlert.splice(index, 1);
+
+    await admin.save();
     res.json(admin);
   } catch (err) {
     console.log(err.message);

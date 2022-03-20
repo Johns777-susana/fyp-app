@@ -5,7 +5,7 @@ import { endpoints } from '../../../../../utils/endpoints';
 import CategoryContext from '../../../../../context/Category/CategoryContext';
 import DoctorContext from '../../../../../context/Doctor/DoctorContext';
 import Spinner from '../../../../Spinner/Spinner';
-import { Redirect, Link } from 'react-router-dom';
+import { Redirect, Link, withRouter } from 'react-router-dom';
 import { FaTrashAlt } from 'react-icons/fa';
 import { AiOutlineFileAdd } from 'react-icons/ai';
 import { FiEdit } from 'react-icons/fi';
@@ -15,7 +15,7 @@ import { BsDot } from 'react-icons/bs';
 const baseURL = process.env.REACT_APP_API_KEY;
 const categories = endpoints.category;
 
-const Category = ({ match }) => {
+const Category = ({ match, history }) => {
   const _id = match.params.category_id;
 
   const {
@@ -201,7 +201,7 @@ const Category = ({ match }) => {
                 <button
                   className='delete-category'
                   onClick={() =>
-                    deleteCategory(_id, categorySingleData.checkupIcon)
+                    deleteCategory(_id, categorySingleData.checkupIcon, history)
                   }
                 >
                   <FaTrashAlt />
@@ -361,4 +361,4 @@ const Category = ({ match }) => {
   );
 };
 
-export default Category;
+export default withRouter(Category);
