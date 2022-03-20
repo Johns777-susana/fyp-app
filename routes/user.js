@@ -248,7 +248,8 @@ router.put(
   '/book/doctor/:doctor_id/:date_id/availabletime/:time_id',
   [
     check('date', 'Booked Date is required').not().isEmpty(),
-    check('bookedTime', 'Booked Times is required').not().isEmpty(),
+    check('from', 'Booking from time is required').not().isEmpty(),
+    check('to', 'Booking To time is required.').not().isEmpty(),
   ],
   auth,
   async (req, res) => {
@@ -263,7 +264,7 @@ router.put(
         return res.status(404).json({ msg: 'Doctor not found.' });
       }
 
-      const { date, bookedTime } = req.body;
+      const { date, from, to } = req.body;
       const bookedBy = req.user.id;
 
       const alreadyBooked = doctor.bookedDate.find(
@@ -276,9 +277,7 @@ router.put(
         });
       }
 
-      const sameTime = doctor.bookedDate.find(
-        (x) => x.bookedTime === bookedTime
-      );
+      const sameTime = doctor.bookedDate.find((x) => x.from === from);
 
       if (sameTime) {
         return res.status(400).json({
@@ -319,7 +318,8 @@ router.put(
       const newBookedInfo = {
         bookedBy,
         date,
-        bookedTime,
+        from,
+        to,
       };
 
       doctor.bookedDate.push(newBookedInfo);

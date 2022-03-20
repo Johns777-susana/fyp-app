@@ -23,7 +23,7 @@ import { endpoints } from '../../utils/endpoints';
 const initialState = {
   totalRoom: null,
   uploadRoomImgId: null,
-  roomData: null,
+  roomsData: null,
   singleRoomData: null,
   isLoading: true,
 };
@@ -152,7 +152,7 @@ const RoomState = ({ children }) => {
     }
   };
 
-  const editRoomDetails = async (_id, roomDetails, history) => {
+  const editRoomDetails = async (_id, roomDetails) => {
     const { name, numberOfBed, details, price } = roomDetails;
 
     try {
@@ -174,8 +174,6 @@ const RoomState = ({ children }) => {
         type: EDIT_ROOM_DETAILS,
         payload: res.data,
       });
-
-      history.push('/rooms');
     } catch (err) {
       const error = err.response.data.error;
       dispatch({

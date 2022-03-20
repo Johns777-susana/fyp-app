@@ -27,7 +27,10 @@ const DoctorSchema = new mongoose.Schema({
       date: {
         type: String,
       },
-      bookedTime: {
+      from: {
+        type: String,
+      },
+      to: {
         type: String,
       },
     },

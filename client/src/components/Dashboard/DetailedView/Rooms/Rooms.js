@@ -2,7 +2,7 @@ import Spinner from '../../../Spinner/Spinner';
 import React, { useEffect, useContext } from 'react';
 import RoomContext from '../../../../context/Room/RoomContext';
 import Header from '../../../Navbar/Header';
-import { Link, withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { MdKingBed } from 'react-icons/md';
 import { AiOutlineDollar } from 'react-icons/ai';
 import { endpoints } from '../../../../utils/endpoints';
@@ -11,8 +11,8 @@ import './rooms.scss';
 const baseURL = process.env.REACT_APP_API_KEY;
 const rooms = endpoints.rooms;
 
-const Rooms = ({ history }) => {
-  const { roomData, queryRoomData } = useContext(RoomContext);
+const Rooms = () => {
+  const { roomsData, queryRoomData } = useContext(RoomContext);
 
   useEffect(() => {
     queryRoomData();
@@ -36,19 +36,19 @@ const Rooms = ({ history }) => {
             </small>
           </div>
           <div className='single-room-main-container'>
-            {roomData === null ? (
+            {roomsData === null ? (
               <div className='spinner-container'>
                 <Spinner />
               </div>
             ) : (
               <>
-                {roomData.length === 0 ? (
+                {roomsData.length === 0 ? (
                   <p className='no-rooms-text'>
                     There are no any rooms. Please add some from dashboard.
                   </p>
                 ) : (
                   <>
-                    {roomData.map((room) => {
+                    {roomsData.map((room) => {
                       const { _id, name, numberOfBed, price, roomImage } = room;
                       return (
                         <div className='single-room-container' key={_id}>
@@ -89,4 +89,4 @@ const Rooms = ({ history }) => {
   );
 };
 
-export default withRouter(Rooms);
+export default Rooms;

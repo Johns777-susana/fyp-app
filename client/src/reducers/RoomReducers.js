@@ -19,11 +19,12 @@ const RoomReducers = (state, action) => {
     case GET_ROOMS:
       return {
         ...state,
-        roomData: payload,
+        roomsData: payload,
         singleRoomData: null,
         isLoading: false,
       };
     case GET_SINGLE_ROOM:
+    case EDIT_ROOM_DETAILS:
       return {
         ...state,
         singleRoomData: payload,
@@ -41,19 +42,12 @@ const RoomReducers = (state, action) => {
       localStorage.setItem('roomQty', payload.length);
       return {
         ...state,
-        roomData: payload,
+        roomsData: payload,
         uploadRoomImgId: null,
         isAuth: true,
         isLoading: false,
       };
 
-    case EDIT_ROOM_DETAILS:
-      return {
-        ...state,
-        roomData: payload,
-        isAuth: true,
-        isLoading: false,
-      };
     default:
       return state;
   }
