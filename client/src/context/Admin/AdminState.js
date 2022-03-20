@@ -6,11 +6,12 @@ import {
   ADMIN_LOGIN_FAILED,
   DELETE_ADMIN_PROFILE_PICTURE_FAILED,
   DELETE_EMERGENCY,
+  DLT_NOTICE,
   GET_ADMIN_DATA,
   GET_ADMIN_DATA_FAILED,
   GET_EMERGENCIES,
   LOGOUT,
-  READ_EMERGENCY,
+  READ_NOTICE,
   UPLOAD_ADMIN_PROFILE_PICTURE,
   UPLOAD_ADMIN_PROFILE_PICTURE_FAILED,
 } from '../../actions/actionTypes';
@@ -160,10 +161,24 @@ const AdminState = ({ children }) => {
       );
 
       dispatch({
-        type: READ_EMERGENCY,
+        type: READ_NOTICE,
         payload: res.data,
       });
     } catch (error) {}
+  };
+
+  // dlt emergency notice
+  const deleteEmNotice = async (_id) => {
+    try {
+      const res = await axios.delete(
+        `${baseURL}${endpoints.admin.readEmergency}${_id}`
+      );
+
+      dispatch({
+        type: DLT_NOTICE,
+        payload: res.data,
+      });
+    } catch (err) {}
   };
 
   // logout admin
@@ -185,6 +200,7 @@ const AdminState = ({ children }) => {
         getEmergencies,
         deleteEmergency,
         readEmergency,
+        deleteEmNotice,
       }}
     >
       {children}

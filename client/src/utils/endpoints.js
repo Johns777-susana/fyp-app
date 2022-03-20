@@ -7,7 +7,7 @@ const endpoints = {
     adminImg: 'api/admin/image/',
     getEmergencies: 'api/emergency',
     deleteEmergency: 'api/emergency/',
-    readEmergency: 'api/emergency/',
+    readEmergency: 'api/emergency/notice/',
   },
   category: {
     categoryNumber: 'api/category/checkup',

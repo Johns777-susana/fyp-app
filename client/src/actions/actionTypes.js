@@ -11,7 +11,8 @@ export const ADMIN_LOGIN_FAILED = 'ADMIN_LOGIN_FAILED';
 export const LOGOUT = 'LOGOUT';
 export const GET_EMERGENCIES = 'GET_EMERGENCIES';
 export const DELETE_EMERGENCY = 'DELETE_EMERGENCY';
-export const READ_EMERGENCY = 'READ_EMERGENCY';
+export const READ_NOTICE = 'READ_NOTICE';
+export const DLT_NOTICE = 'DLT_NOTICE';
 
 // room details actions
 export const ADD_ROOM_DETAILS = 'ADD_ROOM_DETAILS';

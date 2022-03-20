@@ -4,9 +4,12 @@ import AdminContext from '../../context/Admin/AdminContext';
 import Header from '../Navbar/Header';
 import { Redirect, Link } from 'react-router-dom';
 import { FiAlertTriangle } from 'react-icons/fi';
+import { GrFormTrash } from 'react-icons/gr';
+import { FaQuoteRight } from 'react-icons/fa';
 
 const EmergencyNotice = () => {
-  const { adminDetails } = useContext(AdminContext);
+  const { adminDetails, readEmergency, deleteEmNotice } =
+    useContext(AdminContext);
   const { emergencyAlert } = adminDetails;
 
   if (emergencyAlert === null) {
@@ -46,6 +49,10 @@ const EmergencyNotice = () => {
                 </Link>{' '}
                 has high alert emergency. Please check the map for futher
                 details.
+                <div className='actions-container'>
+                  <GrFormTrash onClick={() => deleteEmNotice(_id)} />
+                  <FaQuoteRight onClick={() => readEmergency(_id)} />
+                </div>
               </div>
             </div>
           );

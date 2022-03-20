@@ -1,10 +1,11 @@
 import {
   ADMIN_LOGIN,
   DELETE_EMERGENCY,
+  DLT_NOTICE,
   GET_ADMIN_DATA,
   GET_EMERGENCIES,
   LOGOUT,
-  READ_EMERGENCY,
+  READ_NOTICE,
   UPLOAD_ADMIN_PROFILE_PICTURE,
   UPLOAD_CATEGORY_IMAGE,
 } from '../actions/actionTypes';
@@ -39,18 +40,15 @@ const AdminReducers = (state, action) => {
         isLoading: false,
       };
     case GET_EMERGENCIES:
-      return {
-        ...state,
-        emergencyData: payload,
-        isLoading: false,
-      };
     case DELETE_EMERGENCY:
       return {
         ...state,
         emergencyData: payload,
         isLoading: false,
       };
-    case READ_EMERGENCY:
+
+    case READ_NOTICE:
+    case DLT_NOTICE:
       return {
         ...state,
         adminDetails: payload,
