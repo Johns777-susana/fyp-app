@@ -4,6 +4,7 @@ import axios from 'axios';
 import setAuthToken from '../../utils/setAuthToken';
 import CategoryReducer from '../../reducers/CategoryReducer';
 import {
+  ADD_AVAILABLE_DOC,
   ADD_AVAILABLE_DOC_FAILED,
   ADD_CATEGORY_DETAILS,
   ADD_CATEGORY_DETAILS_FAILED,
@@ -248,7 +249,7 @@ const CategoryState = ({ children }) => {
   };
 
   // add available doctors to the category
-  const addDoctors = async (docDetails, _id, history) => {
+  const addDoctors = async (docDetails, _id) => {
     const { doctorName, doctorId } = docDetails;
     try {
       const config = {
@@ -259,12 +260,16 @@ const CategoryState = ({ children }) => {
 
       const body = JSON.stringify({ doctorId, doctorName });
 
-      await axios.put(
+      const res = await axios.put(
         `${baseURL}${category.addAvailableDoc}${_id}/doctor`,
         body,
         config
       );
-      history.push('/categories');
+
+      dispatch({
+        type: ADD_AVAILABLE_DOC,
+        payload: res.data,
+      });
     } catch (err) {
       const error = err.response.data.error;
       dispatch({

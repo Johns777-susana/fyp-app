@@ -7,34 +7,41 @@ const Admin = require('../models/Admins');
 
 //@desc add user emergency coordinates to the database
 // this route is for user only
-router.post('/:user_id', async (req, res) => {
-  const user = req.params.user_id;
-  const { lat, long } = req.body;
-  const read = 'false';
-  const newEmergency = {};
-  if (user) newEmergency.user = user;
-  if (lat) newEmergency.coordinates = lat;
+router.post(
+  '/:user_id',
+  [
+    check('lat', 'Latitude value is required').not().isEmpty(),
+    check('long', 'Longitude value is required').not().isEmpty(),
+  ],
+  async (req, res) => {
+    const user = req.params.user_id;
+    const { lat, long } = req.body;
+    const read = 'false';
+    const newEmergency = {};
+    if (user) newEmergency.user = user;
+    if (lat) newEmergency.coordinates = lat;
 
-  try {
-    let emergency = await Emergency.findById(req.params.user_id);
-    emergency = new Emergency(newEmergency);
-    emergency.coordinates.push(long);
+    try {
+      let emergency = await Emergency.findById(req.params.user_id);
+      emergency = new Emergency(newEmergency);
+      emergency.coordinates.push(long);
 
-    const admin = await Admin.findById('622492d84422423a0457b6c4');
+      const admin = await Admin.findById('622492d84422423a0457b6c4');
 
-    const emergencyNotice = {};
-    if (user) emergencyNotice.user = user;
-    if (read) emergencyNotice.read = read;
-    admin.emergencyAlert.unshift(emergencyNotice);
-    await admin.save();
-    await emergency.save();
+      const emergencyNotice = {};
+      if (user) emergencyNotice.user = user;
+      if (read) emergencyNotice.read = read;
+      admin.emergencyAlert.unshift(emergencyNotice);
+      await admin.save();
+      await emergency.save();
 
-    res.json('Successfully sent your location.');
-  } catch (err) {
-    console.log(err.message);
-    res.status(500).json('Server Error');
+      res.json('Successfully sent your location.');
+    } catch (err) {
+      console.log(err.message);
+      res.status(500).json('Server Error');
+    }
   }
-});
+);
 
 //@desc get all of the users emergency only for admin
 router.get('/', async (req, res) => {

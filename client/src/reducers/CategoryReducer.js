@@ -7,6 +7,7 @@ import {
   ADD_DISEASE_DETAILS,
   GET_SINGLE_CATEGORY,
   DLT_DIESEASE,
+  ADD_AVAILABLE_DOC,
 } from '../actions/actionTypes';
 
 const CategoryReducer = (state, action) => {
@@ -29,6 +30,7 @@ const CategoryReducer = (state, action) => {
     case ADD_DISEASE_DETAILS:
     case EDIT_CATEGORY_DETAILS:
     case DLT_DIESEASE:
+    case ADD_AVAILABLE_DOC:
       return {
         ...state,
         categorySingleData: payload,
