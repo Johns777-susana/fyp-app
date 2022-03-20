@@ -4,14 +4,14 @@ import RoomContext from '../../../../../context/Room/RoomContext';
 import { endpoints } from '../../../../../utils/endpoints';
 import { MdKingBed } from 'react-icons/md';
 import { AiOutlineDollar } from 'react-icons/ai';
-import { Redirect, withRouter } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import './room.scss';
 import Spinner from '../../../../Spinner/Spinner';
 
 const baseURL = process.env.REACT_APP_API_KEY;
 const rooms = endpoints.rooms;
 
-const Room = ({ history, match }) => {
+const Room = ({ match }) => {
   const {
     editRoomDetails,
     deleteRoomDetails,
@@ -33,7 +33,7 @@ const Room = ({ history, match }) => {
 
   const editFormSubmit = (e) => {
     e.preventDefault();
-    editRoomDetails(_id, roomDetails, history);
+    editRoomDetails(_id, roomDetails);
   };
 
   useEffect(() => {
@@ -74,7 +74,7 @@ const Room = ({ history, match }) => {
                 </button>
                 <button
                   className='delete-room'
-                  onClick={() => deleteRoomDetails(_id, history)}
+                  onClick={() => deleteRoomDetails(_id)}
                 >
                   Delete Room Details
                 </button>
@@ -158,4 +158,4 @@ const Room = ({ history, match }) => {
   );
 };
 
-export default withRouter(Room);
+export default Room;
