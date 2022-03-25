@@ -44,6 +44,7 @@ const endpoints = {
     roomImg: 'api/category/room/image/',
     editRoomDetails: 'api/category/room/',
     deleteRoom: 'api/category/room/',
+    deleteBooking: 'api/user/book/room/',
   },
   user: {
     getUserNumber: 'api/user/users/length',

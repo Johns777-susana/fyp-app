@@ -7,6 +7,7 @@ import {
   ADD_ROOM_DETAILS,
   ADD_ROOM_DETAILS_FAILED,
   DELETE_ROOM_FAILED,
+  DLT_ROOM_BOOKING,
   EDIT_ROOM_DETAILS,
   EDIT_ROOM_DETAILS_FAILED,
   GET_ROOMS,
@@ -198,6 +199,20 @@ const RoomState = ({ children }) => {
     }
   };
 
+  // delete room booking
+  const deleteRoomBooking = async (_id, id) => {
+    try {
+      const res = await axios.delete(
+        `${baseURL}${rooms.deleteBooking}${_id}/${id}}`
+      );
+
+      dispatch({
+        type: DLT_ROOM_BOOKING,
+        payload: res.data,
+      });
+    } catch (err) {}
+  };
+
   return (
     <RoomContext.Provider
       value={{
@@ -209,6 +224,7 @@ const RoomState = ({ children }) => {
         editRoomDetails,
         deleteRoomDetails,
         querySingleRoom,
+        deleteRoomBooking,
       }}
     >
       {children}

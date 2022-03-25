@@ -1,5 +1,6 @@
 import {
   ADD_ROOM_DETAILS,
+  DLT_ROOM_BOOKING,
   EDIT_ROOM_DETAILS,
   GET_ROOMS,
   GET_ROOM_NUMBER,
@@ -35,6 +36,12 @@ const RoomReducers = (state, action) => {
       return {
         ...state,
         uploadRoomImgId: payload,
+        isLoading: false,
+      };
+    case DLT_ROOM_BOOKING:
+      return {
+        ...state,
+        singleRoomData: payload,
         isLoading: false,
       };
 

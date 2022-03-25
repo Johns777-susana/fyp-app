@@ -79,6 +79,32 @@
       .room-img {
         width: 100%;
       }
+      .booked-details {
+        h3 {
+          color: #105ed4;
+          text-decoration: underline;
+        }
+        .booked-container {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 0.75em;
+          padding-top: 0.25em;
+          .book {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25em;
+            border: 1px solid #105ed4;
+            padding: 1em;
+            strong {
+              color: #105ed4;
+            }
+            .dlt-icon {
+              color: #ff0000cb;
+              cursor: pointer;
+            }
+          }
+        }
+      }
     }
     .show-form {
       .room-details-form {

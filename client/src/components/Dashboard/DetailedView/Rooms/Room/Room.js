@@ -4,7 +4,8 @@ import RoomContext from '../../../../../context/Room/RoomContext';
 import { endpoints } from '../../../../../utils/endpoints';
 import { MdKingBed } from 'react-icons/md';
 import { AiOutlineDollar } from 'react-icons/ai';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
+import { IoIosTrash } from 'react-icons/io';
 import './room.scss';
 import Spinner from '../../../../Spinner/Spinner';
 
@@ -17,6 +18,7 @@ const Room = ({ match }) => {
     deleteRoomDetails,
     querySingleRoom,
     singleRoomData,
+    deleteRoomBooking
   } = useContext(RoomContext);
   const _id = match.params.room_id;
 
@@ -56,35 +58,61 @@ const Room = ({ match }) => {
             <Spinner />
           </div>
         ) : (
-          <div className='single-room-details'>
-            <div className='single-room-txt'>
-              <h2>{singleRoomData.name} Room</h2>
-              <p>
-                <MdKingBed className='room-icon' />
-                Number of Beds Available: {singleRoomData.numberOfBed}
-              </p>
-              <p>{singleRoomData.details}</p>
-              <p>
-                <AiOutlineDollar className='room-icon' />
-                Cost: {singleRoomData.price}/Day
-              </p>
-              <div className='room-btn-container'>
-                <button className='edit-room' onClick={() => setShowForm(true)}>
-                  Edit Room Details
-                </button>
-                <button
-                  className='delete-room'
-                  onClick={() => deleteRoomDetails(_id)}
-                >
-                  Delete Room Details
-                </button>
+          <>
+            <div className='single-room-details'>
+              <div className='single-room-txt'>
+                <h2>{singleRoomData.name} Room</h2>
+                <p>
+                  <MdKingBed className='room-icon' />
+                  Number of Beds Available: {singleRoomData.numberOfBed}
+                </p>
+                <p>{singleRoomData.details}</p>
+                <p>
+                  <AiOutlineDollar className='room-icon' />
+                  Cost: {singleRoomData.price}/Day
+                </p>
+                <div className='room-btn-container'>
+                  <button
+                    className='edit-room'
+                    onClick={() => setShowForm(true)}
+                  >
+                    Edit Room Details
+                  </button>
+                  <button
+                    className='delete-room'
+                    onClick={() => deleteRoomDetails(_id)}
+                  >
+                    Delete Room Details
+                  </button>
+                </div>
+              </div>
+              <img
+                src={`${baseURL}${rooms.roomImg}${singleRoomData.roomImage}`}
+                className='room-img'
+              />
+              <div className='booked-details'>
+                <h3>Booked Date and Info</h3>
+                <div className='booked-container'>
+                  {singleRoomData.bookedDate.map((date) => (
+                    <div className='book' key={date._id}>
+                      <strong>From Date: </strong>
+                      {date.from}
+                      <strong>To Date: </strong>
+                      {date.to}
+                      <strong>Booked by: </strong>
+                      <Link
+                        to={`/user/${date.user}`}
+                        style={{ textDecoration: 'none' }}
+                      >
+                        {date.user}
+                      </Link>
+                      <IoIosTrash className='dlt-icon' onClick={() => deleteRoomBooking(_id, date._id)} />
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
-            <img
-              src={`${baseURL}${rooms.roomImg}${singleRoomData.roomImage}`}
-              className='room-img'
-            />
-          </div>
+          </>
         )}
         {showForm && (
           <div className='show-form'>
