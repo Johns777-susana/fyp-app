@@ -279,7 +279,7 @@ router.delete('/doctor/:doctor_id/availabletime/:time_id', async (req, res) => {
     const index = doctor.available.map((x) => x.id).indexOf(req.params.time_id);
 
     doctor.available.splice(index, 1);
-
+    await doctor.save();
     res.json(doctor);
   } catch (err) {
     console.log(err.message);

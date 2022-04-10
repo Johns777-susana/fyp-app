@@ -29,6 +29,7 @@ const Doctor = ({ history, match }) => {
 
   const [showForm, setShowForm] = useState(false);
   const [showAdd, setShowAdd] = useState(false);
+
   const [doctorDetails, setDoctorDetails] = useState({
     name: '',
     contactNo: '',
@@ -144,7 +145,7 @@ const Doctor = ({ history, match }) => {
                                   <>
                                     {x.time.map((y) => (
                                       <div className='tbody' key={y._id}>
-                                        <div>{y.from} A.M</div>
+                                        <div>{y.from}</div>
                                         <div
                                           style={{
                                             display: 'flex',
@@ -152,7 +153,7 @@ const Doctor = ({ history, match }) => {
                                             alignItems: 'center',
                                           }}
                                         >
-                                          {y.to} P.M{' '}
+                                          {y.to}{' '}
                                           <button
                                             style={{
                                               border: 'none',
@@ -177,7 +178,7 @@ const Doctor = ({ history, match }) => {
                                 <div className='form-control'>
                                   <label>From Time:</label>
                                   <input
-                                    type='number'
+                                    type='text'
                                     name='from'
                                     value={availableTime.from}
                                     onChange={(e) => timeChangeHandler(e)}
@@ -186,7 +187,7 @@ const Doctor = ({ history, match }) => {
                                 <div className='form-control'>
                                   <label>To Time:</label>
                                   <input
-                                    type='number'
+                                    type='text'
                                     name='to'
                                     value={availableTime.to}
                                     onChange={(e) => timeChangeHandler(e)}
@@ -196,12 +197,20 @@ const Doctor = ({ history, match }) => {
                                   className='add-time-btn'
                                   onClick={(e) => {
                                     e.preventDefault();
-                                    addTime(availableTime, _id, x._id);
-                                    setAvailableTime({
-                                      ...availableTime,
-                                      from: '',
-                                      to: '',
-                                    });
+                                    if (
+                                      availableTime.from === availableTime.to
+                                    ) {
+                                      window.alert(
+                                        'From Time and To time cannot be same.'
+                                      );
+                                    } else {
+                                      addTime(availableTime, _id, x._id);
+                                      setAvailableTime({
+                                        ...availableTime,
+                                        from: '',
+                                        to: '',
+                                      });
+                                    }
                                   }}
                                 >
                                   Add Time

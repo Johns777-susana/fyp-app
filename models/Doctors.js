@@ -38,7 +38,7 @@ const DoctorSchema = new mongoose.Schema({
   available: [
     {
       date: String,
-      time: [{ from: Number, to: Number }],
+      time: [{ from: String, to: String }],
     },
   ],
 });

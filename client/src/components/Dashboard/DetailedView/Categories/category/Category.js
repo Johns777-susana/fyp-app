@@ -150,14 +150,18 @@ const Category = ({ match, history }) => {
                               {doctor.doctorName}
                             </p>
                           </Link>
-                          <p
+                          <button
                             className='dlt-doctor'
                             onClick={() =>
-                              dltDoctor(categorySingleData._id, doctor.doctorId)
+                              dltDoctor(
+                                categorySingleData._id,
+                                doctor.doctorId,
+                                history
+                              )
                             }
                           >
                             Delete Doctor
-                          </p>
+                          </button>
                         </div>
                       );
                     })}
