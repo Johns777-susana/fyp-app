@@ -34,6 +34,7 @@ const endpoints = {
     deleteDoctor: 'api/category/doctor/',
     doctorImg: 'api/category/doctor/image/',
     available: 'api/category/doctor/',
+    dltAvailable: 'api/category/doctor/'
   },
   rooms: {
     addRoomDetails: 'api/category/room',
