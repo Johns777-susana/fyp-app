@@ -154,7 +154,7 @@ const RoomState = ({ children }) => {
   };
 
   const editRoomDetails = async (_id, roomDetails) => {
-    const { name, numberOfBed, details, price } = roomDetails;
+    const { name, numberOfBed, details, price, availableRooms } = roomDetails;
 
     try {
       const config = {
@@ -163,7 +163,13 @@ const RoomState = ({ children }) => {
         },
       };
 
-      const body = JSON.stringify({ name, numberOfBed, details, price });
+      const body = JSON.stringify({
+        name,
+        numberOfBed,
+        details,
+        price,
+        availableRooms,
+      });
 
       const res = await axios.put(
         `${baseURL}${rooms.editRoomDetails}${_id}`,

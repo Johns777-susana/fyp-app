@@ -13,10 +13,10 @@ const RoomForm = ({ setShowAddSuites }) => {
   // room form
   const [roomDetails, setRoomDetails] = useState({
     name: '',
-    numberOfBed: 0,
+    numberOfBed: '',
     details: '',
     price: '',
-    availableRooms: 0,
+    availableRooms: '',
   });
   const [file, setFile] = useState(null);
 

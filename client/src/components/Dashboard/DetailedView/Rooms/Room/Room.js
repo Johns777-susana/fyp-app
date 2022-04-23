@@ -37,6 +37,14 @@ const Room = ({ match, history }) => {
   const editFormSubmit = (e) => {
     e.preventDefault();
     editRoomDetails(_id, roomDetails);
+    setShowForm(false);
+    setRoomDetails({
+      name: '',
+      numberOfBed: '',
+      details: '',
+      price: '',
+      availableRooms: '',
+    });
   };
 
   useEffect(() => {
@@ -67,6 +75,10 @@ const Room = ({ match, history }) => {
                   <MdKingBed className='room-icon' />
                   Number of Beds Available: {singleRoomData.numberOfBed}
                 </p>
+                <p>
+                  <MdKingBed className='room-icon' />
+                  Number of Rooms Available: {singleRoomData.availableRooms}
+                </p>
                 <p>{singleRoomData.details}</p>
                 <p>
                   <AiOutlineDollar className='room-icon' />
@@ -93,7 +105,7 @@ const Room = ({ match, history }) => {
               />
               <div className='booked-details'>
                 <h3>Booked Date and Info</h3>
-                {/* <div className='booked-container'>
+                <div className='booked-container'>
                   {singleRoomData.bookedDate.map((date) => (
                     <div className='book' key={date._id}>
                       <strong>From Date: </strong>
@@ -113,7 +125,7 @@ const Room = ({ match, history }) => {
                       />
                     </div>
                   ))}
-                </div> */}
+                </div>
               </div>
             </div>
           </>
