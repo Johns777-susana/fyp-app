@@ -4,7 +4,7 @@ import RoomContext from '../../../../../context/Room/RoomContext';
 import { endpoints } from '../../../../../utils/endpoints';
 import { MdKingBed } from 'react-icons/md';
 import { AiOutlineDollar } from 'react-icons/ai';
-import { Redirect, Link } from 'react-router-dom';
+import { Redirect, Link, withRouter } from 'react-router-dom';
 import { IoIosTrash } from 'react-icons/io';
 import './room.scss';
 import Spinner from '../../../../Spinner/Spinner';
@@ -12,13 +12,13 @@ import Spinner from '../../../../Spinner/Spinner';
 const baseURL = process.env.REACT_APP_API_KEY;
 const rooms = endpoints.rooms;
 
-const Room = ({ match }) => {
+const Room = ({ match, history }) => {
   const {
     editRoomDetails,
     deleteRoomDetails,
     querySingleRoom,
     singleRoomData,
-    deleteRoomBooking
+    deleteRoomBooking,
   } = useContext(RoomContext);
   const _id = match.params.room_id;
 
@@ -28,6 +28,7 @@ const Room = ({ match }) => {
     numberOfBed: '',
     details: '',
     price: '',
+    availableRooms: 0,
   });
   const onChangeRoom = (e) => {
     setRoomDetails({ ...roomDetails, [e.target.name]: e.target.value });
@@ -80,7 +81,7 @@ const Room = ({ match }) => {
                   </button>
                   <button
                     className='delete-room'
-                    onClick={() => deleteRoomDetails(_id)}
+                    onClick={() => deleteRoomDetails(_id, history)}
                   >
                     Delete Room Details
                   </button>
@@ -92,7 +93,7 @@ const Room = ({ match }) => {
               />
               <div className='booked-details'>
                 <h3>Booked Date and Info</h3>
-                <div className='booked-container'>
+                {/* <div className='booked-container'>
                   {singleRoomData.bookedDate.map((date) => (
                     <div className='book' key={date._id}>
                       <strong>From Date: </strong>
@@ -106,10 +107,13 @@ const Room = ({ match }) => {
                       >
                         {date.user}
                       </Link>
-                      <IoIosTrash className='dlt-icon' onClick={() => deleteRoomBooking(_id, date._id)} />
+                      <IoIosTrash
+                        className='dlt-icon'
+                        onClick={() => deleteRoomBooking(_id, date._id)}
+                      />
                     </div>
                   ))}
-                </div>
+                </div> */}
               </div>
             </div>
           </>
@@ -125,7 +129,7 @@ const Room = ({ match }) => {
               <div className='form-grid'>
                 <div className='form-left'>
                   <div className='form-input'>
-                    <label htmlFor='roomtype'>Room Type</label>
+                    <label htmlFor='name'>Room Type</label>
                     <input
                       name='name'
                       value={roomDetails.name}
@@ -134,12 +138,21 @@ const Room = ({ match }) => {
                     />
                   </div>
                   <div className='form-input'>
-                    <label htmlFor='roomprice'>Room Price:</label>
+                    <label htmlFor='price'>Room Price:</label>
                     <input
                       name='price'
                       value={roomDetails.price}
                       onChange={(e) => onChangeRoom(e)}
                       type='number'
+                    />
+                  </div>
+                  <div className='form-input'>
+                    <label htmlFor='availableRooms'>Available Rooms:</label>
+                    <input
+                      name='availableRooms'
+                      value={roomDetails.availableRooms}
+                      onChange={(e) => onChangeRoom(e)}
+                      type='text'
                     />
                   </div>
                   <div className='form-btn-container'>
@@ -186,4 +199,4 @@ const Room = ({ match }) => {
   );
 };
 
-export default Room;
+export default withRouter(Room);

@@ -9,13 +9,14 @@ const room = endpoints.rooms;
 const RoomForm = ({ setShowAddSuites }) => {
   const { addRoomDetails, addRoomImage, uploadRoomImgId } =
     useContext(RoomContext);
-  console.log(uploadRoomImgId);
+
   // room form
   const [roomDetails, setRoomDetails] = useState({
     name: '',
-    numberOfBed: '',
+    numberOfBed: 0,
     details: '',
     price: '',
+    availableRooms: 0,
   });
   const [file, setFile] = useState(null);
 
@@ -77,7 +78,7 @@ const RoomForm = ({ setShowAddSuites }) => {
           <div className='form-grid'>
             <div className='form-left'>
               <div className='form-input'>
-                <label htmlFor='roomtype'>Room Type</label>
+                <label htmlFor='name'>Room Type</label>
                 <input
                   name='name'
                   value={roomDetails.name}
@@ -85,7 +86,6 @@ const RoomForm = ({ setShowAddSuites }) => {
                   type='text'
                 />
               </div>
-
               <div className='form-input'>
                 <label htmlFor='details'>Details:</label>
                 <textarea
@@ -96,7 +96,7 @@ const RoomForm = ({ setShowAddSuites }) => {
                 />
               </div>
               <div className='form-input'>
-                <label htmlFor='roomprice'>Room Price:</label>
+                <label htmlFor='price'>Room Price:</label>
                 <input
                   name='price'
                   value={roomDetails.price}
@@ -105,10 +105,19 @@ const RoomForm = ({ setShowAddSuites }) => {
                 />
               </div>
               <div className='form-input'>
-                <label htmlFor='bedquantity'>Room Bed Quantity:</label>
+                <label htmlFor='numberOfBed'>Room Bed Quantity:</label>
                 <input
                   name='numberOfBed'
                   value={roomDetails.numberOfBed}
+                  onChange={(e) => onChangeRoom(e)}
+                  type='number'
+                />
+              </div>{' '}
+              <div className='form-input'>
+                <label htmlFor='availableRooms'>Available Rooms:</label>
+                <input
+                  name='availableRooms'
+                  value={roomDetails.availableRooms}
                   onChange={(e) => onChangeRoom(e)}
                   type='number'
                 />

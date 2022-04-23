@@ -153,9 +153,7 @@ router.put('/room/:room_id', auth, async (req, res) => {
     if (availableRooms) room.availableRooms = `${availableRooms}`;
 
     await room.save();
-
-    const rooms = await Room.find();
-    res.json(rooms);
+    res.json(room);
   } catch (err) {
     console.log(err.message);
     res.status(500).send('Server Error');
